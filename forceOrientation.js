@@ -37,6 +37,7 @@ SOFTWARE.
  */
 function forceOrientation(_orientation, _options)
 {
+  "use strict"; // like it says, use strict
   // we will need this elements later on
   var body = document.querySelector('body'),
       head = document.querySelector('head'),
@@ -44,13 +45,13 @@ function forceOrientation(_orientation, _options)
       metaViewport, // the viewport meta element
       metaElements = {},
       bodyWidth, bodyHeight,
-      devicePixelRatio = (_options && _options.devicePixelRation || window.devicePixelRatio),
+      devicePixelRatio = ((_options && _options.devicePixelRation) || window.devicePixelRatio),
       vertical = (_orientation === forceOrientation.VERTICAL);
 
   // we need these css styles, otherwise this wont work (<- who would have guessed : )
-  html.style.overflow = (_options && _options.overflow || 'hidden');
+  html.style.overflow = ((_options && _options.overflow) || 'hidden');
   body.style.position = 'absolute';
-  body.style.overflow = html.style.overflow == 'hidden' ? 'hidden' : 'visible';
+  body.style.overflow = html.style.overflow === 'hidden' ? 'hidden' : 'visible';
   body.style.top = 0;
   body.style.left = 0;
   body.style.margin = 0;
@@ -65,10 +66,11 @@ function forceOrientation(_orientation, _options)
   }
   
   // viewport cannot be overwritten
-  metaElements['viewport'] = 'width='+window.innerWidth+ ',height='+window.innerHeight+
+  metaElements.viewport = 'width='+window.innerWidth+ ',height='+window.innerHeight+
                              ',maximum-scale=' + (1.0 / devicePixelRatio) + ',minimum-scale=' + (1.0 / devicePixelRatio);
 
   // set the meta stuff
+  var name;
   for (name in metaElements)
   {
     var meta = document.createElement('meta');
@@ -82,7 +84,7 @@ function forceOrientation(_orientation, _options)
     }
   }
 
-  // the update function, will be triggered once to set tup, and everytime we rotate
+  // the update function, will be triggered once to setup, and every time we rotate
   var updateOrientation = function()
   {
     // rotate the body into the desired position
